@@ -1,33 +1,30 @@
 model {
 
-  customer = actor 'Customer' {
-    description 'Customer of the cloud system'
+  customer = actor 'Tudeng' {
+    description 'Õppiv infosüsteemi kasutaja'
   }
 
-  cloud = system 'Cloud System' {    
-    link https://likec4.dev
+  cloud = system 'Õppeinfosüsteem' {    
+    link https://ois2.ut.ee
     description '
-      Our SaaS platfrom that allows
-      customers to interact with
-      the latest technologies
+      Infosüsteem, mis võimaldab kasutajal õppega seotud teenuste kasutamist
     '
 
-    ui = component 'Frontend' {
-      description 'All the frontend applications of the cloud system'
+    ui = component 'Tundegi kasutajaliides' {
+      description 'kasutajaliides, mis on disaini ja funktsionaalsuse osas suunatud õppijale'
       style {
         shape browser
       }
     }
 
-    backend = component 'Backend' {      
-      link https://github.com/likec4/likec4
-      description 'The backend services of the cloud system'
+    backend = component 'Curriculum' {      
+      description 'Lore ips'
     }
 
   }
 
-  customer -> cloud 'uses and pays'
-  customer -> ui 'uses web and mobile'
+  customer -> cloud 'kasutab'
+  customer -> ui 'kasutab veebi ja mobiili'
 
   aws = system 'Amazon Web Services' {
     link https://aws.amazon.com/
