@@ -1,49 +1,49 @@
 views {
 
   view index of customer {
-    title 'System Landscape'
+    title 'Üldvaade'
     include
       *,
       element.kind = system
   }
 
-  view cloud of cloud {
-    title 'Context: Cloud System'
+  view ois of ois {
+    title 'Context: Õppeinfosüsteemi raamistik'
     include *
-    style cloud, cloud.* {
+    style ois, ois.* {
       color green
     }
   }
 
-  view aws of aws {
+  view UTIS of UTIS {
     title 'Context: Amazon Web Services'
     include
       *,
-      cloud,
-      cloud.* -> aws
+      ois,
+      ois.* -> UTIS
 
     style * {
       color muted
       border dotted
       opacity 5%
     }
-    style aws.* {
+    style UTIS.* {
       color green
     }
-    style cloud.* {
+    style ois.* {
       color secondary
     }
   }
 
-  view aws_cognito of aws.cognito {
+  view UTIS_SSO of UTIS.SSO {
     include
       *,
-      cloud.* ->
+      ois.* ->
 
-    style cloud.* {
+    style ois.* {
       color secondary
     }
-    style aws.cognito {
+    style UTIS.SSO {
       color amber
     }
   }  

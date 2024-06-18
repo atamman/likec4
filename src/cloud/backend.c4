@@ -1,11 +1,10 @@
-// Extend cloud.backend model
+// Extend ois.backend model
 model {
 
-  extend aws {
+  extend UTIS {
     pg = database 'PostgreSQL' {      
-      technology 'AWS Aurora PostgreSQL'
+      technology 'postgresql andmebaas'
       description 'Database for storing relational data'
-      link https://aws.amazon.com/rds/postgresql/
       style {
         icon https://icons.terrastruct.com/dev%2Fpostgresql.svg
       }
@@ -29,14 +28,36 @@ model {
     }
   }
 
-  extend cloud.backend {
+  extend ois.backend1 {
 
     graphql = service 'GraphQL API' {
-      description 'The GraphQL API of the cloud system'
+      description 'The GraphQL API of the ois system'
 
-      -> aws.pg.tbl_sessions 'reads/writes'
-      -> aws.pg.tbl_customers 'reads/writes'
-      -> aws.cognito 'authorizes'
+      -> UTIS.pg.tbl_sessions 'reads/writes'
+      -> UTIS.pg.tbl_customers 'reads/writes'
+      -> UTIS.SSO 'authorizes'
+    }
+
+  }
+  extend ois.backend2 {
+
+    graphql = service 'GraphQL API' {
+      description 'The GraphQL API of the ois system'
+
+      -> UTIS.pg.tbl_sessions 'reads/writes'
+      -> UTIS.pg.tbl_customers 'reads/writes'
+      -> UTIS.SSO 'authorizes'
+    }
+
+  }
+  extend ois.backend3 {
+
+    graphql = service 'GraphQL API' {
+      description 'The GraphQL API of the ois system'
+
+      -> UTIS.pg.tbl_sessions 'reads/writes'
+      -> UTIS.pg.tbl_customers 'reads/writes'
+      -> UTIS.SSO 'authorizes'
     }
 
   }
@@ -45,14 +66,14 @@ model {
 
 views {
 
-  view cloud_backend of cloud.backend {
+  view ois_backend1 of ois.backend1 {
 
     include
       *,
-      aws._,
-      aws.pg._,
-      backend with {
-        navigateTo cloud
+      UTIS._,
+      UTIS.pg._,
+      backend1 with {
+        navigateTo ois
       }
 
     style * {
@@ -60,34 +81,59 @@ views {
       opacity 10%
     }
 
-    style cloud.backend, cloud.backend.* {
+    style ois.backend1, ois.backend1.* {
       color green
     }
-    style aws.pg {
+    style UTIS.pg {
       border solid
     }
-    style cloud.ui {
+    style ois.ui1 {
+      color secondary
+    }
+  }
+  view ois_backend2 of ois.backend2 {
+
+    include
+      *,
+      UTIS._,
+      UTIS.pg._,
+      backend2 with {
+        navigateTo ois
+      }
+
+    style * {
+      color amber
+      opacity 10%
+    }
+
+    style ois.backend2, ois.backend2.* {
+      color green
+    }
+    style UTIS.pg {
+      border solid
+    }
+    style ois.ui2 {
       color secondary
     }
   }
 
-  view aws_pg of aws.pg {
+  view UTIS_pg of UTIS.pg {
     title 'Databases'
     include
       *,
       pg with {
-        title 'AWS - PostgreSQL'
-        navigateTo aws
+        title 'UTIS - PostgreSQL'
+        navigateTo UTIS
       },
-      cloud,
-      cloud.* -> pg.*
+      ois,
+      ois.* -> pg.*
 
     style * {
       color secondary
       opacity 10%
     }
 
-    style cloud, pg  {
+    style ois, pg  {
       color muted
     }
 

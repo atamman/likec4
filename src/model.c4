@@ -1,47 +1,63 @@
 model {
 
-  customer = actor 'Tudeng' {
-    description 'Õppiv infosüsteemi kasutaja'
+  customer = actor 'Kasutaja' {
+    description 'infosüsteemi kasutaja'
+
+    customer1 = actor 'Tudeng'
+
+    customer2 = actor 'Õppejõud'
+
+    customer3 = actor 'Töötaja'
   }
 
-  cloud = system 'Õppeinfosüsteem' {    
+  ois = system 'Õppeinfosüsteem' {    
     link https://ois2.ut.ee
-    description '
-      Infosüsteem, mis võimaldab kasutajal õppega seotud teenuste kasutamist
-    '
+    description 'Infosüsteem, mis võimaldab kasutajal õppega seotud teenuste kasutamist'
 
-    ui = component 'Tundegi kasutajaliides' {
+    ui1 = component 'Tundegi kasutajaliides' {
       description 'kasutajaliides, mis on disaini ja funktsionaalsuse osas suunatud õppijale'
       style {
         shape browser
       }
     }
 
-    backend = component 'Curriculum' {      
-      description 'Lore ips'
+    ui2 = component 'Õppejõu kasutajaliides' {
+      description 'kasutajaliides, mis on disaini ja funktsionaalsuse osas suunatud õppejõule'
+      style {
+        shape browser
+      }
+    }
+
+    backend1 = component 'Curricula' {      
+      description 'Õppekava ja täiendusõppe haldus'
+    }
+
+    backend2 = component 'Courses' {      
+      description 'Õppeaine ja ainekava haldus'
+    }
+
+    backend3 = component 'Timetable' {      
+      description 'Õppetöö kalender'
     }
 
   }
 
-  customer -> cloud 'kasutab'
-  customer -> ui 'kasutab veebi ja mobiili'
+  customer1 -> ois 'kasutab'
+  customer2 -> ois 'kasutab'
+  customer3 -> ois 'kasutab'
+  customer -> ui1 'kasutab veebi ja mobiili'
+  customer -> ui2 'kasutab veebi'
 
-  aws = system 'Amazon Web Services' {
-    link https://aws.amazon.com/
-    description '
-      Cloud Infrastructure and
-      Managed Services
-    '
+  UTIS = system 'Ülikooli Infosüsteem' {
+    description 'Õlikooli hallatud taristu ja haldussüsteem'
     style {
       color amber
-      icon https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg
     }
 
-    cognito = component 'Cognito' {
-      link https://aws.amazon.com/cognito/
-      description 'Provides user management and authentication'
+    SSO = component 'SSO' {
+      description 'Autentimine'
     }
   }
 
-  cloud -> aws 'uses services'
+  ois -> UTIS 'kasutab'
 }

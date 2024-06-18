@@ -1,22 +1,22 @@
-// Extend cloud.ui model
+// Extend ois.ui model
 model {
 
-  extend cloud.ui {
+  extend ois.ui1 {
 
-    dashboard = webapp 'Customer Dashboard' {
-      technology 'NextJS'
-      description 'Web application, that allows customers to interact with the cloud system'
-      -> cloud.backend.graphql 'fetches data'
-      -> aws.cognito 'authenticates'
+    dashboard = webapp 'Kasutaja töölaud' {
+      technology 'Angular'
+      description 'Rakendus, mis võimaldab kasutajal funktsionaalsust kasutada'
+      -> ois.backend1.graphql 'fetches data'
+      -> UTIS.SSO 'authenticates'
     }
 
     mobile = mobile 'Mobile App' {
       technology 'Flutter'
-      description 'The mobile app of the cloud system'
+      description 'The mobile app of the ois system'
       link https://flutter.dev/
       
-      -> cloud.backend.graphql 'fetches data'
-      -> aws.cognito 'authenticates'
+      -> ois.backend1.graphql 'fetches data'
+      -> UTIS.SSO 'authenticates'
     }
 
     customer -> dashboard 'opens in browser'
@@ -27,29 +27,55 @@ model {
 
 views {
 
-  view cloud_ui of cloud.ui {
+  view ois_ui1 of ois.ui1 {
     include
       *,
-      ui with {
-        navigateTo cloud
+      ui1 with {
+        navigateTo ois
       },
-      aws._,
+      UTIS._,
 
     exclude
-      cloud.backend -> aws.cognito
+      ois.backend1.* -> UTIS.SSO
 
     style * {
       color secondary
     }
 
-    style cloud, aws  {
+    style ois, UTIS  {
       color muted
     }
 
-    style ui, ui.* {
+    style ui1, ui1.* {
       color green
     }
-    style aws, aws.* {
+    style UTIS, UTIS.* {
+      color amber
+    }    
+  }
+  view ois_ui2 of ois.ui2 {
+    include
+      *,
+      ui2 with {
+        navigateTo ois
+      },
+      UTIS._,
+
+    exclude
+      ois.backend2.* -> UTIS.SSO
+
+    style * {
+      color secondary
+    }
+
+    style ois, UTIS  {
+      color muted
+    }
+
+    style ui2, ui2.* {
+      color green
+    }
+    style UTIS, UTIS.* {
       color amber
     }    
   }
